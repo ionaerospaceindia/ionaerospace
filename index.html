@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title class="blinking-title">Ion Aerospace</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+  background: url('image/image.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #0b1220;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Transparent white sheet overlay */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.6); /* white with 60% transparency */
+  z-index: -1; /* keeps it behind your content */
+}
+
+
+
+    /* Overlay for readability */
+    body::before {
+      content: '';
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(11,18,32,0.75);
+      z-index: -1;
+    }
+
+    /* Navigation */
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: rgba(11,18,32,0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #23314f;
+      z-index: 1000;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+      padding: 0 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      gap: 12px;
+      color: #e6eefc;
+      font-size: 1.2rem;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #7cd1ff, #5eead4);
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #e6eefc;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -3px;
+      left: 0;
+      background-color: #7cd1ff;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #7cd1ff, #5eead4);
+      color: #0b1220;
+      padding: 8px 16px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .btn.primary:hover {
+      background: linear-gradient(135deg, #5eead4, #7cd1ff);
+      transform: translateY(-2px);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #e6eefc;
+      cursor: pointer;
+    }
+
+    /* Hero section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 70px);
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #7cd1ff;
+      text-shadow: 0 0 10px #5eead4;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      color: #e6eefc;
+      margin-bottom: 30px;
+    }
+
+    .hero a {
+      text-decoration: none;
+      padding: 12px 24px;
+      font-weight: bold;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7cd1ff, #5eead4);
+      color: #0b1220;
+      transition: 0.3s;
+    }
+
+    .hero a:hover {
+      background: linear-gradient(135deg, #5eead4, #7cd1ff);
+      transform: translateY(-3px);
+    }
+
+    /* Blinking title */
+    .blinking-title {
+  animation: blinkColors 1.2s infinite;
+}
+
+@keyframes blinkColors {
+  0%   { color: #2196f3; }    /* Blue */
+  33%  { color: #8e24aa; }    /* Violet */
+  66%  { color: #d500f9; }    /* Purple */
+  100% { color: #2196f3; }    /* Blue */
+}
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(11,18,32,0.95);
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+        padding: 15px;
+        border-left: 1px solid #23314f;
+      }
+      .nav-links.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <nav class="nav container">
+      <div class="brand">
+         <img src="image/img.jpg" alt="Ion AeroSpace Logo" class="logo">
+        <span>Ion Aerospace</span>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="shop.html">Shop</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="project.html" class="btn primary">Projects</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Welcome to Ion Aerospace</h1>
+    <p>We design the future of flight with next-gen drones and aerospace solutions that transform industries</p>
+    <a href="project.html">Explore Projects</a>
+  </section>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("show");
+    }
+  </script>
+
+</body>
+</html>

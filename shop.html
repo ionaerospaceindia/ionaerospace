@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" hidden>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ion Aerospace Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .shop-hero { text-align: center; padding: 60px 20px; }
+    .shop-hero h1 { font-size: 42px; margin-bottom: 15px; }
+    .shop-hero p { color: #9bb0d3; font-size: 18px; }
+
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px; }
+    .product-card { background: #121b2f; border-radius: 15px; border: 1px solid #23314f; padding: 20px; text-align: center; transition: transform 0.2s; cursor: pointer; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(124, 209, 255, 0.2); }
+    .product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 15px; }
+    .product-card h3 { font-size: 18px; margin-bottom: 8px; }
+    .product-card p { color: #7cd1ff; font-weight: bold; }
+
+    /* Cart */
+    .cart-icon { cursor: pointer; font-size: 20px; margin-left: 20px; }
+    .cart-modal { display: none; position: fixed; top: 0; right: 0; width: 300px; height: 100%; background: #121b2f; border-left: 1px solid #23314f; padding: 20px; overflow-y: auto; z-index: 1000; }
+    .cart-modal h2 { margin-bottom: 15px; }
+    .cart-item { border-bottom: 1px solid #23314f; padding: 10px 0; }
+    .close-cart { cursor: pointer; float: right; }
+
+    /* Product Detail */
+    .product-detail { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #121b2f; border: 1px solid #23314f; border-radius: 15px; padding: 20px; width: 80%; max-width: 800px; z-index: 1001; display: none; }
+    .product-detail-content { display: flex; gap: 20px; align-items: center; }
+    .product-detail img { width: 300px; height: auto; border-radius: 10px; object-fit: contain; }
+    .product-detail .info { flex: 1; }
+    .close-detail { float: right; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="topbar">
+    <nav class="nav container">
+      <div class="brand">
+        <img src="image/img.jpg" alt="Ion AeroSpace Logo" class="logo">
+        <span>Ion Aerospace</span>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <span class="cart-icon" onclick="toggleCart()">🛒 Cart</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Shop Hero -->
+  <section class="shop-hero container">
+    <h1>🚀 Aerospace Merchandise</h1>
+    <p>Exclusive gear inspired by space exploration</p>
+  </section>
+
+  <!-- Products -->
+  <section class="container">
+    <div class="products">
+      <div class="product-card" onclick="showDetail('Quadcopter frame','https://source.unsplash.com/400x300/?tshirt,space','High-quality cotton fabric with aerospace branding.','₹899')">
+        <img src="https://source.unsplash.com/400x300/?tshirt,space" alt="Quadcopter frame">
+        <h3>Quadcopter frame</h3>
+        <p>₹1000</p>
+      </div>
+      <div class="product-card" onclick="showDetail('Wall hanger','https://source.unsplash.com/400x300/?mug,astronaut','Ceramic mug with galaxy print.','₹499')">
+        <img src="https://source.unsplash.com/400x300/?mug,astronaut" alt="Wall hanger">
+        <h3>Wall hanger</h3>
+        <p>₹499</p>
+      </div>
+      <div class="product-card" onclick="showDetail('Mission Cap','https://source.unsplash.com/400x300/?cap,space','Cotton cap with embroidered Ion Aerospace logo.','₹599')">
+        <img src="https://source.unsplash.com/400x300/?cap,space" alt="Cap">
+        <h3>Mission Cap</h3>
+        <p>₹599</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <span class="close-cart" onclick="toggleCart()">✖</span>
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="product-detail" id="productDetail">
+    <span class="close-detail" onclick="closeDetail()">✖</span>
+    <div class="product-detail-content">
+      <img id="detailImage" src="" alt="">
+      <div class="info">
+        <h2 id="detailTitle"></h2>
+        <p id="detailDesc"></p>
+        <p><strong id="detailPrice"></strong></p>
+        <button onclick="addToCart()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 AeroSpace Co. All Rights Reserved</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    let cart = [];
+    let currentProduct = {};
+
+    function toggleCart() {
+      const cartModal = document.getElementById("cartModal");
+      cartModal.style.display = cartModal.style.display === "block" ? "none" : "block";
+      renderCart();
+    }
+
+    function showDetail(title, image, desc, price) {
+      currentProduct = { title, image, desc, price };
+      document.getElementById("detailTitle").innerText = title;
+      document.getElementById("detailImage").src = image;
+      document.getElementById("detailDesc").innerText = desc;
+      document.getElementById("detailPrice").innerText = price;
+      document.getElementById("productDetail").style.display = "block";
+    }
+
+    function closeDetail() {
+      document.getElementById("productDetail").style.display = "none";
+    }
+
+    function addToCart() {
+      cart.push(currentProduct);
+      alert(currentProduct.title + " added to cart!");
+      closeDetail();
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById("cartItems");
+      cartItems.innerHTML = "";
+      if (cart.length === 0) {
+        cartItems.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+      cart.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `<strong>${item.title}</strong><br>${item.price}`;
+        cartItems.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
